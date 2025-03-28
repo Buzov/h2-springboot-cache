@@ -4,12 +4,20 @@ import com.javaquasar.cache.model.CacheEntry;
 import com.javaquasar.cache.model.SaveCacheEntry;
 import com.javaquasar.cache.repository.CacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class CacheService {
+
+    @Value("${app.cache.expiration.value:1}")
+    private Integer expirationValue;
+    @Value("${app.cache.expiration.unit:MINUTES}")
+    private ChronoUnit expirationUnit;
 
     private final CacheRepository cacheRepository;
 
@@ -22,16 +30,21 @@ public class CacheService {
         return cacheRepository.findByKey(key);
     }
 
-    public void save(SaveCacheEntry saveCacheEntry) {
+    public Long save(SaveCacheEntry saveCacheEntry) {
         CacheEntry entry = new CacheEntry();
         entry.setKey(saveCacheEntry.getKey());
         entry.setValue(saveCacheEntry.getValue());
         entry.setCreatedAt(new Date(new java.util.Date().getTime()));
         cacheRepository.save(entry);
+        return entry.getId();
     }
 
+    public void deleteExpired() {
+        Instant now = Instant.now();
+        Instant expirationThreshold = now.minus(expirationValue, expirationUnit);
+        java.util.Date expirationDate = java.util.Date.from(expirationThreshold);
 
-
-
+        cacheRepository.deleteByCreatedAtBefore(expirationDate);
+    }
 
 }
