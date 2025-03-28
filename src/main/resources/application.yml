@@ -1,0 +1,26 @@
+server:
+  port: 8192
+  error:
+    include-message: ALWAYS
+
+spring:
+  application:
+    name: h2-springboot-cache
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:h2:mem:data/h2-springboot-cache-db
+#    url: jdbc:h2:./data/h2-springboot-cache-db;AUTO_SERVER=TRUE
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
