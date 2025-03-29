@@ -1,16 +1,14 @@
 package com.javaquasar.cache.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Table(name = "cache")
 public class CacheEntry {
     @JsonIgnore
     @Id

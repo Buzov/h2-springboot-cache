@@ -32,3 +32,10 @@ springdoc:
     enabled: ${ENABLE_SWAGGER:false}
   swagger-ui:
     enabled: ${ENABLE_SWAGGER:false}
+
+app:
+  cache:
+    expiration:
+      cron: ${CACHE_EXPIRATION_CRON:0 * * * * *}
+      value: ${CACHE_EXPIRATION_VALUE:1}
+      unit: ${CACHE_EXPIRATION_UNIT:MINUTES}
