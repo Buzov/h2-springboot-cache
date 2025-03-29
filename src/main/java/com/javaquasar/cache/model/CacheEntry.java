@@ -3,7 +3,7 @@ package com.javaquasar.cache.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 

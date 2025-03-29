@@ -6,8 +6,9 @@ import com.javaquasar.cache.repository.CacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
+import java.util.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
@@ -34,15 +35,16 @@ public class CacheService {
         CacheEntry entry = new CacheEntry();
         entry.setKey(saveCacheEntry.getKey());
         entry.setValue(saveCacheEntry.getValue());
-        entry.setCreatedAt(new Date(new java.util.Date().getTime()));
+        entry.setCreatedAt(new Date());
         cacheRepository.save(entry);
         return entry.getId();
     }
 
+    @Transactional
     public void deleteExpired() {
         Instant now = Instant.now();
         Instant expirationThreshold = now.minus(expirationValue, expirationUnit);
-        java.util.Date expirationDate = java.util.Date.from(expirationThreshold);
+        Date expirationDate = Date.from(expirationThreshold);
 
         cacheRepository.deleteByCreatedAtBefore(expirationDate);
     }
