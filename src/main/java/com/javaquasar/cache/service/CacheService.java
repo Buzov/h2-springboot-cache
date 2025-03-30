@@ -41,12 +41,28 @@ public class CacheService {
     }
 
     @Transactional
-    public void deleteExpired() {
+    public void deleteExpiredUsingJpa() {
+        Date expirationDate = getExpirationDate(expirationValue, expirationUnit);
+        cacheRepository.deleteByCreatedAtBefore(expirationDate);
+    }
+
+    @Transactional
+    public void deleteExpiredUsingJpql() {
+        Date expirationDate = getExpirationDate(expirationValue, expirationUnit);
+        cacheRepository.deleteOlderThan(expirationDate);
+    }
+
+    @Transactional
+    public void deleteExpiredUsingNativeQuery() {
+        Date expirationDate = getExpirationDate(expirationValue, expirationUnit);
+        cacheRepository.deleteOlderThanNativeQuery(expirationDate);
+    }
+
+    public Date getExpirationDate(Integer expirationValue, ChronoUnit expirationUnit) {
         Instant now = Instant.now();
         Instant expirationThreshold = now.minus(expirationValue, expirationUnit);
         Date expirationDate = Date.from(expirationThreshold);
-
-        cacheRepository.deleteByCreatedAtBefore(expirationDate);
+        return expirationDate;
     }
 
 }
