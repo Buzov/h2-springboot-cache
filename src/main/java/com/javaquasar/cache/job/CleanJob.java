@@ -17,7 +17,7 @@ public class CleanJob {
 
     @Scheduled(cron = "${app.cache.expiration.cron:0 * * * * *}")
     public void removeOldRecords() {
-        cacheService.deleteExpired();
+        cacheService.deleteExpiredUsingJpql();
     }
 
 }

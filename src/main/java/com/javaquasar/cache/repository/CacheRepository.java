@@ -12,10 +12,17 @@ public interface CacheRepository extends CrudRepository<CacheEntry, Long> {
 
     CacheEntry findByKey(String key);
 
+    // JPA
     void deleteByCreatedAtBefore(Date expirationDate);
 
+    // JPQL
     @Modifying
     @Query("DELETE FROM CacheEntry c WHERE c.createdAt < :expirationDate")
     void deleteOlderThan(@Param("expirationDate") Date expirationDate);
+
+    // Native Query
+    @Modifying
+    @Query(value = "DELETE FROM cache WHERE created_at < :expirationDate", nativeQuery = true)
+    void deleteOlderThanNativeQuery(@Param("expirationDate") Date expirationDate);
 
 }
