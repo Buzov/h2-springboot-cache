@@ -20,4 +20,13 @@ public class SaveCacheEntry {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("SaveCacheEntry{");
+        sb.append("key='").append(key).append('\'');
+        sb.append(", value='").append(value).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
