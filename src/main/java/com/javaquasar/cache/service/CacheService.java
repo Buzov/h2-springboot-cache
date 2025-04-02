@@ -3,8 +3,7 @@ package com.javaquasar.cache.service;
 import com.javaquasar.cache.model.CacheEntry;
 import com.javaquasar.cache.model.SaveCacheEntry;
 import com.javaquasar.cache.repository.CacheRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,10 +13,9 @@ import java.util.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+@Slf4j
 @Service
 public class CacheService {
-
-    private static final Logger log = LoggerFactory.getLogger(CacheService.class);
 
     @Value("${app.cache.expiration.value:1}")
     private Integer expirationValue;
