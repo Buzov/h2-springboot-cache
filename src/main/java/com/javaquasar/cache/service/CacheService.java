@@ -3,6 +3,8 @@ package com.javaquasar.cache.service;
 import com.javaquasar.cache.model.CacheEntry;
 import com.javaquasar.cache.model.SaveCacheEntry;
 import com.javaquasar.cache.repository.CacheRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.time.temporal.ChronoUnit;
 
 @Service
 public class CacheService {
+
+    private static final Logger log = LoggerFactory.getLogger(CacheService.class);
 
     @Value("${app.cache.expiration.value:1}")
     private Integer expirationValue;
@@ -32,6 +36,7 @@ public class CacheService {
     }
 
     public Long save(SaveCacheEntry saveCacheEntry) {
+        log.info("Save cache entry: {}", saveCacheEntry);
         CacheEntry entry = new CacheEntry();
         entry.setKey(saveCacheEntry.getKey());
         entry.setValue(saveCacheEntry.getValue());
@@ -48,6 +53,7 @@ public class CacheService {
 
     @Transactional
     public void deleteExpiredUsingJpql() {
+        log.info("Delete expired cache entry Jpql");
         Date expirationDate = getExpirationDate(expirationValue, expirationUnit);
         cacheRepository.deleteOlderThan(expirationDate);
     }
@@ -62,6 +68,7 @@ public class CacheService {
         Instant now = Instant.now();
         Instant expirationThreshold = now.minus(expirationValue, expirationUnit);
         Date expirationDate = Date.from(expirationThreshold);
+        log.info("expirationDate: {}", expirationDate);
         return expirationDate;
     }
 
