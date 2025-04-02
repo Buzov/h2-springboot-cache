@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.aspectj.lang.ProceedingJoinPoint;
 
+import java.util.Arrays;
+
 @Aspect
 @Component
 public class LoggingInRestServicesAspect {
@@ -20,11 +22,13 @@ public class LoggingInRestServicesAspect {
         long start = System.currentTimeMillis();
 
         log.info("Started: {}", methodName);
-
         try {
+            Object[] args = joinPoint.getArgs();
+            log.info("➡️  Incoming request: {} with args: {}", methodName, Arrays.toString(args));
+
             Object result = joinPoint.proceed();
             long duration = System.currentTimeMillis() - start;
-            log.info("Finished: {} in {} ms", methodName, MillisecondsFormatter.format(duration));
+            log.info("⬅️  Response from: {} = {} ({} ms)", methodName, result, MillisecondsFormatter.format(duration));
             return result;
         } catch (Throwable t) {
             log.error("Exception in {}: {}", methodName, t.getMessage());
