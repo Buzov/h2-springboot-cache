@@ -1,20 +1,18 @@
 package com.javaquasar.cache.aop;
 
 import com.javaquasar.cache.util.MillisecondsFormatter;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import java.util.Arrays;
 
+@Slf4j
 @Aspect
 @Component
 public class LoggingInRestServicesAspect {
-
-    private static final Logger log = LoggerFactory.getLogger(LoggingInRestServicesAspect.class);
 
     @Around("execution(* com.javaquasar.cache.controller.*.*(..))")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
