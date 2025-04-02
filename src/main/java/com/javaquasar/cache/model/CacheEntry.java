@@ -51,4 +51,15 @@ public class CacheEntry {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("CacheEntry{");
+        sb.append("id=").append(id);
+        sb.append(", key='").append(key).append('\'');
+        sb.append(", value='").append(value).append('\'');
+        sb.append(", createdAt=").append(createdAt);
+        sb.append('}');
+        return sb.toString();
+    }
 }
