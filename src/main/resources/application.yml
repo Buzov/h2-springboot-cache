@@ -43,3 +43,12 @@ app:
       cron: ${CACHE_EXPIRATION_CRON:0 * * * * *}
       value: ${CACHE_EXPIRATION_VALUE:1}
       unit: ${CACHE_EXPIRATION_UNIT:MINUTES}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${MANAGEMENT_ENDPOINTS_EXPOSURE_LIST:health,info,metrics,env,beans}
+  endpoint:
+    health:
+      show-details: ${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}
