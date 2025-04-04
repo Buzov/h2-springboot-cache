@@ -28,8 +28,8 @@ public class CacheService {
     public Long save(SaveCacheEntry saveCacheEntry) {
         log.info("Save cache entry: {}", saveCacheEntry);
         CacheEntry entry = new CacheEntry();
-        entry.setKey(saveCacheEntry.getKey());
-        entry.setValue(saveCacheEntry.getValue());
+        entry.setKey(saveCacheEntry.key());
+        entry.setValue(saveCacheEntry.value());
         entry.setCreatedAt(new Date());
         cacheRepository.save(entry);
         return entry.getId();

@@ -28,9 +28,7 @@ class CacheApplicationIntegrationTest {
         String baseUrl = "http://localhost:" + port + "/cache/";
 
         // Save a new cache entry
-        SaveCacheEntry saveEntry = new SaveCacheEntry();
-        saveEntry.setKey("integrationKey");
-        saveEntry.setValue("integrationValue");
+        SaveCacheEntry saveEntry = new SaveCacheEntry("integrationKey", "integrationValue");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

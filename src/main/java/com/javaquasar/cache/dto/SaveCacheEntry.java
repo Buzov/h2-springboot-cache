@@ -1,13 +1,8 @@
 package com.javaquasar.cache.dto;
 
-import lombok.Data;
-import lombok.ToString;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@Data
-@ToString
-public class SaveCacheEntry {
-
-    private String key;
-    private String value;
-
+@Schema(description = "Cache request for API, includes basic fields")
+public record SaveCacheEntry(@Schema(description = "Entry identifier", example = "1") String key,
+                             @Schema(description = "Value of the entry", example = "java") String value) {
 }

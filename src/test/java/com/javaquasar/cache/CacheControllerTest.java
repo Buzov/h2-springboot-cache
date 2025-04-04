@@ -46,9 +46,7 @@ class CacheControllerTest {
 
     @Test
     void shouldSaveCacheEntry() throws Exception {
-        SaveCacheEntry entry = new SaveCacheEntry();
-        entry.setKey("saveKey");
-        entry.setValue("saveValue");
+        SaveCacheEntry entry = new SaveCacheEntry("saveKey", "saveKey");
 
         mockMvc.perform(post("/cache/")
                 .contentType(MediaType.APPLICATION_JSON)
