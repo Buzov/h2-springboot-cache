@@ -48,7 +48,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: ${MANAGEMENT_ENDPOINTS_EXPOSURE_LIST:health,info,metrics,env,beans}
+        include: ${MANAGEMENT_ENDPOINTS_EXPOSURE_LIST:health,info,metrics,env,beans,configprops}
   endpoint:
     health:
       show-details: ${MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS:always}
