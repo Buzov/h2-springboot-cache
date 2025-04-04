@@ -1,4 +1,4 @@
-package com.javaquasar.cache.model;
+package com.javaquasar.cache.dto;
 
 import lombok.Data;
 import lombok.ToString;

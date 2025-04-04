@@ -1,7 +1,7 @@
 package com.javaquasar.cache.controller;
 
 import com.javaquasar.cache.model.CacheEntry;
-import com.javaquasar.cache.model.SaveCacheEntry;
+import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

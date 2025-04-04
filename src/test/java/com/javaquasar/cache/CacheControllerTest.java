@@ -2,7 +2,7 @@ package com.javaquasar.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaquasar.cache.model.CacheEntry;
-import com.javaquasar.cache.model.SaveCacheEntry;
+import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.service.CacheService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

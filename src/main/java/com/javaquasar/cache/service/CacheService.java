@@ -2,7 +2,7 @@ package com.javaquasar.cache.service;
 
 import com.javaquasar.cache.conf.CacheExpirationProperties;
 import com.javaquasar.cache.model.CacheEntry;
-import com.javaquasar.cache.model.SaveCacheEntry;
+import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.repository.CacheRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
