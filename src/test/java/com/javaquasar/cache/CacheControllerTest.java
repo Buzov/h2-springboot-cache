@@ -1,6 +1,7 @@
 package com.javaquasar.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.javaquasar.cache.dto.CacheEntryResponse;
 import com.javaquasar.cache.model.CacheEntry;
 import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.service.CacheService;
@@ -13,6 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Date;
 
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,9 +35,7 @@ class CacheControllerTest {
     @Test
     void shouldReturnCacheEntryForGivenKey() throws Exception {
         String key = "testKey";
-        CacheEntry mockEntry = new CacheEntry();
-        mockEntry.setKey(key);
-        mockEntry.setValue("testValue");
+        CacheEntryResponse mockEntry = new CacheEntryResponse(key, "testValue", new Date());
 
         Mockito.when(cacheService.getCacheEntry(key)).thenReturn(mockEntry);
 

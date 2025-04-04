@@ -1,6 +1,7 @@
 package com.javaquasar.cache.service;
 
 import com.javaquasar.cache.conf.CacheExpirationProperties;
+import com.javaquasar.cache.dto.CacheEntryResponse;
 import com.javaquasar.cache.model.CacheEntry;
 import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.repository.CacheRepository;
@@ -21,8 +22,13 @@ public class CacheService {
     private final CacheExpirationProperties cacheExpirationProperties;
     private final CacheRepository cacheRepository;
 
-    public CacheEntry getCacheEntry(String key) {
-        return cacheRepository.findByKey(key);
+    public CacheEntryResponse getCacheEntry(String key) {
+        CacheEntry cacheEntry = cacheRepository.findByKey(key);
+        return new CacheEntryResponse(
+            cacheEntry.getKey(),
+            cacheEntry.getValue(),
+            cacheEntry.getCreatedAt()
+        );
     }
 
     public Long save(SaveCacheEntry saveCacheEntry) {

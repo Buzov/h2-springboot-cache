@@ -1,5 +1,6 @@
 package com.javaquasar.cache.controller;
 
+import com.javaquasar.cache.dto.CacheEntryResponse;
 import com.javaquasar.cache.model.CacheEntry;
 import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.service.CacheService;
@@ -18,8 +19,8 @@ public class CacheController {
     }
 
     @GetMapping("/{key}")
-    public CacheEntry getCache(@PathVariable String key) {
-        CacheEntry response = cacheService.getCacheEntry(key);
+    public CacheEntryResponse getCache(@PathVariable String key) {
+        var response = cacheService.getCacheEntry(key);
         return response;
     }
 
