@@ -1,7 +1,10 @@
 package com.javaquasar.cache.service;
 
 import com.javaquasar.cache.conf.CacheExpirationProperties;
-import com.javaquasar.cache.dto.CacheEntryResponse;
+import com.javaquasar.cache.api.Version;
+import com.javaquasar.cache.dto.CacheEntryResponseV1;
+import com.javaquasar.cache.dto.CacheEntryResponseV2;
+import com.javaquasar.cache.dto.ICacheEntry;
 import com.javaquasar.cache.model.CacheEntry;
 import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.repository.CacheRepository;
@@ -22,13 +25,28 @@ public class CacheService {
     private final CacheExpirationProperties cacheExpirationProperties;
     private final CacheRepository cacheRepository;
 
-    public CacheEntryResponse getCacheEntry(String key) {
+    public ICacheEntry getCacheEntry(Version version, String key) {
         CacheEntry cacheEntry = cacheRepository.findByKey(key);
-        return new CacheEntryResponse(
-            cacheEntry.getKey(),
-            cacheEntry.getValue(),
-            cacheEntry.getCreatedAt()
-        );
+        log.info("cacheEntry: {}", cacheEntry);
+        switch (version) {
+            case V1 -> {
+                return new CacheEntryResponseV1(
+                    cacheEntry.getKey(),
+                    cacheEntry.getValue(),
+                    cacheEntry.getCreatedAt()
+                );
+            }
+            case V2 -> {
+                return new CacheEntryResponseV2(
+                    cacheEntry.getId(),
+                    cacheEntry.getKey(),
+                    cacheEntry.getValue(),
+                    cacheEntry.getCreatedAt()
+                );
+            }
+        }
+
+        return new ICacheEntry() {};
     }
 
     public Long save(SaveCacheEntry saveCacheEntry) {

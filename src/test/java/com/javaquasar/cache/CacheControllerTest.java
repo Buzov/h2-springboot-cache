@@ -1,8 +1,9 @@
 package com.javaquasar.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.javaquasar.cache.dto.CacheEntryResponse;
-import com.javaquasar.cache.model.CacheEntry;
+import com.javaquasar.cache.api.Version;
+import com.javaquasar.cache.dto.CacheEntryResponseV1;
+import com.javaquasar.cache.dto.ICacheEntry;
 import com.javaquasar.cache.dto.SaveCacheEntry;
 import com.javaquasar.cache.service.CacheService;
 import org.junit.jupiter.api.Test;
@@ -35,9 +36,9 @@ class CacheControllerTest {
     @Test
     void shouldReturnCacheEntryForGivenKey() throws Exception {
         String key = "testKey";
-        CacheEntryResponse mockEntry = new CacheEntryResponse(key, "testValue", new Date());
+        ICacheEntry mockEntry = new CacheEntryResponseV1(key, "testValue", new Date());
 
-        Mockito.when(cacheService.getCacheEntry(key)).thenReturn(mockEntry);
+        Mockito.when(cacheService.getCacheEntry(Version.V1, key)).thenReturn(mockEntry);
 
         mockMvc.perform(get("/cache/{key}", key))
             .andExpect(status().isOk())

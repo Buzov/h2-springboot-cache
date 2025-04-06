@@ -15,5 +15,15 @@ curl -X POST http://localhost:3000/cache -H "Content-Type: application/json" -d 
 
 ### Get a cache info
 ```shell
-curl -X GET http://localhost:3000/cache/username
+curl -X GET http://localhost:3000/cache/1
+```
+
+### V1
+```shell
+curl -X GET http://localhost:3000/cache/1 -H "accept: application/vnd.javaquasar.v1+json"
+```
+
+### V2
+```shell
+curl -X GET http://localhost:3000/cache/1 -H "accept: application/vnd.javaquasar.v2+json"
 ```
