@@ -39,11 +39,13 @@ class CacheRepositoryTest {
         oldEntry.setKey("old");
         oldEntry.setValue("oldValue");
         oldEntry.setCreatedAt(new Date(now.getTime() - 100000)); // 100 sec ago
+        oldEntry.setUpdatedAt(new Date(now.getTime() - 100000)); // 100 sec ago
 
         CacheEntry recentEntry = new CacheEntry();
         recentEntry.setKey("recent");
         recentEntry.setValue("recentValue");
         recentEntry.setCreatedAt(new Date(now.getTime() + 100000)); // 100 sec in future
+        recentEntry.setUpdatedAt(new Date(now.getTime() + 100000)); // 100 sec in future
 
         cacheRepository.save(oldEntry);
         cacheRepository.save(recentEntry);
@@ -63,12 +65,13 @@ class CacheRepositoryTest {
         oldEntry.setKey("jpqlOld");
         oldEntry.setValue("value");
         oldEntry.setCreatedAt(new Date(now.getTime() - 200000));
+        oldEntry.setUpdatedAt(new Date(now.getTime() - 200000));
 
         cacheRepository.save(oldEntry);
 
         cacheRepository.deleteOlderThan(now);
 
-        assertThat(cacheRepository.findByKey("jpqlOld")).isNull();
+        assertThat(cacheRepository.findByKey("jpqlOld")).isEmpty();
     }
 
     @Test
@@ -79,11 +82,12 @@ class CacheRepositoryTest {
         oldEntry.setKey("nativeOld");
         oldEntry.setValue("value");
         oldEntry.setCreatedAt(new Date(now.getTime() - 300000));
+        oldEntry.setUpdatedAt(new Date(now.getTime() - 300000));
 
         cacheRepository.save(oldEntry);
 
         cacheRepository.deleteOlderThanNativeQuery(now);
 
-        assertThat(cacheRepository.findByKey("nativeOld")).isNull();
+        assertThat(cacheRepository.findByKey("nativeOld")).isEmpty();
     }
 }
