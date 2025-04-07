@@ -18,9 +18,10 @@ public class CacheEntry {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
-    @Column(name = "cache_key")
+    @Column(name = "cache_key", unique = true)
     private String key;
     @Column(name = "cache_value")
     private String value;
     private Date createdAt;
+    private Date updatedAt;
 }

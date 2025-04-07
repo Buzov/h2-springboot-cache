@@ -2,7 +2,7 @@ package com.javaquasar.cache;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaquasar.cache.model.CacheEntry;
-import com.javaquasar.cache.model.SaveCacheEntry;
+import com.javaquasar.cache.dto.SaveCacheEntry;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,9 +28,7 @@ class CacheApplicationIntegrationTest {
         String baseUrl = "http://localhost:" + port + "/cache/";
 
         // Save a new cache entry
-        SaveCacheEntry saveEntry = new SaveCacheEntry();
-        saveEntry.setKey("integrationKey");
-        saveEntry.setValue("integrationValue");
+        SaveCacheEntry saveEntry = new SaveCacheEntry("integrationKey", "integrationValue");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
