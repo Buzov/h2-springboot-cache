@@ -33,7 +33,14 @@ public class CacheController {
     private final VersionProvider versionProvider;
     private final CacheService cacheService;
 
-    @Operation
+    @Operation(
+        summary = "Retrieve a CacheEntry",
+        description = """
+            Returns CacheEntry based on the Accept header. \
+            Version 1 (vnd.javaquasar.v1+json) includes id and name; \
+            Version 2 (vnd.javaquasar.v2+json) includes id, adds updatedAt. \
+            Defaults to v1 if header is omitted."""
+    )
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "200",
