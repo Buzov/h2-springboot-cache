@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -26,7 +27,8 @@ public class CacheService {
     private final CacheRepository cacheRepository;
 
     public ICacheEntry getCacheEntry(Version version, String key) {
-        CacheEntry cacheEntry = cacheRepository.findByKey(key);
+        CacheEntry cacheEntry = cacheRepository.findByKey(key)
+            .orElseThrow(() -> new NoSuchElementException("Cache entry not found for key: " + key));
         log.info("cacheEntry: {}", cacheEntry);
         switch (version) {
             case V1 -> {
@@ -41,7 +43,8 @@ public class CacheService {
                     cacheEntry.getId(),
                     cacheEntry.getKey(),
                     cacheEntry.getValue(),
-                    cacheEntry.getCreatedAt()
+                    cacheEntry.getCreatedAt(),
+                    cacheEntry.getUpdatedAt()
                 );
             }
         }
@@ -51,18 +54,31 @@ public class CacheService {
 
     public Long save(SaveCacheEntry saveCacheEntry) {
         log.info("Save cache entry: {}", saveCacheEntry);
-        CacheEntry entry = new CacheEntry();
-        entry.setKey(saveCacheEntry.key());
-        entry.setValue(saveCacheEntry.value());
-        entry.setCreatedAt(new Date());
-        cacheRepository.save(entry);
-        return entry.getId();
+        String key = saveCacheEntry.key();
+        String value = saveCacheEntry.value();
+        Date now = new Date();
+        CacheEntry entry = cacheRepository.findByKey(key)
+            .map(existing -> {
+                existing.setValue(value);
+                existing.setUpdatedAt(now);
+                return existing;
+            })
+            .orElseGet(() -> {
+                CacheEntry newEntry = new CacheEntry();
+                newEntry.setKey(key);
+                newEntry.setValue(value);
+                newEntry.setCreatedAt(now);
+                newEntry.setUpdatedAt(now);
+                return newEntry;
+            });
+
+        return cacheRepository.save(entry).getId();
     }
 
     @Transactional
     public void deleteExpiredUsingJpa() {
         Date expirationDate = getExpirationDate();
-        cacheRepository.deleteByCreatedAtBefore(expirationDate);
+        cacheRepository.deleteByUpdatedAtBefore(expirationDate);
     }
 
     @Transactional

@@ -16,7 +16,9 @@ public record CacheEntryResponseV2(
     String value,
 
     @Schema(description = "Timestamp when the entry was created", example = "2025-04-04T23:00:04.236+00:00")
-    Date createdAt
+    Date createdAt,
 
+    @Schema(description = "Timestamp when the entry was updated", example = "2025-04-04T23:00:04.236+00:00")
+    Date updatedAt
 ) implements ICacheEntry
 {}

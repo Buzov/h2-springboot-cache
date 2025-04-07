@@ -26,7 +26,7 @@ class CacheRepositoryTest {
 
         cacheRepository.save(entry);
 
-        CacheEntry found = cacheRepository.findByKey("myKey");
+        CacheEntry found = cacheRepository.findByKey("myKey").get();
         assertThat(found).isNotNull();
         assertThat(found.getValue()).isEqualTo("myValue");
     }
@@ -48,7 +48,7 @@ class CacheRepositoryTest {
         cacheRepository.save(oldEntry);
         cacheRepository.save(recentEntry);
 
-        cacheRepository.deleteByCreatedAtBefore(now);
+        cacheRepository.deleteByUpdatedAtBefore(now);
 
         List<CacheEntry> remaining = (List<CacheEntry>) cacheRepository.findAll();
         assertThat(remaining).hasSize(1);
