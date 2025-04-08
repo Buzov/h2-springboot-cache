@@ -1,6 +1,8 @@
 package com.javaquasar.cache.repository;
 
 import com.javaquasar.cache.model.CacheEntry;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,6 +15,9 @@ public interface CacheRepository extends CrudRepository<CacheEntry, Long> {
 
     Optional<CacheEntry> findByKey(String key);
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT c FROM CacheEntry c WHERE c.key = :key")
+    Optional<CacheEntry> lockByKey(@Param("key") String key);
     // JPA
     void deleteByUpdatedAtBefore(Date expirationDate);
 

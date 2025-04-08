@@ -1,6 +1,5 @@
 package com.javaquasar.cache.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -14,7 +13,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "cache")
 public class CacheEntry {
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
