@@ -48,13 +48,22 @@ class CacheRaceConditionTest {
         Thread updateThread = new Thread(() -> {
             try {
                 latch.await(); // wait until both threads are ready
-                Optional<CacheEntry> optional = cacheRepository.findById(id);
-                if (optional.isPresent()) {
-                    CacheEntry toUpdate = optional.get();
-                    toUpdate.setValue("updated");
-                    toUpdate.setUpdatedAt(new Date()); // new timestamp
-                    cacheRepository.save(toUpdate);
-                }
+                runInTransaction(() -> {
+                    Optional<CacheEntry> optional = cacheRepository.lockByKey("race-key");
+                    Date newDate = new Date();
+                    if (optional.isPresent()) {
+                        CacheEntry toUpdate = optional.get();
+                        toUpdate.setValue("updated");
+                        toUpdate.setUpdatedAt(newDate); // new timestamp
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        cacheRepository.save(toUpdate);
+                        System.out.println("Updated " + toUpdate);
+                    }
+                });
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -64,6 +73,7 @@ class CacheRaceConditionTest {
         Thread deleteThread = new Thread(() -> {
             try {
                 latch.await();
+                Thread.sleep(50); // Let update win the race
                 runInTransaction(() -> {
                     Instant expiration = Instant.now().minus(Duration.ofMinutes(10));
                     cacheRepository.deleteOlderThan(Date.from(expiration));

@@ -52,12 +52,13 @@ public class CacheService {
         return new ICacheEntry() {};
     }
 
+    @Transactional
     public Long save(SaveCacheEntry saveCacheEntry) {
         log.info("Save cache entry: {}", saveCacheEntry);
         String key = saveCacheEntry.key();
         String value = saveCacheEntry.value();
         Date now = new Date();
-        CacheEntry entry = cacheRepository.findByKey(key)
+        CacheEntry entry = cacheRepository.lockByKey(key)
             .map(existing -> {
                 existing.setValue(value);
                 existing.setUpdatedAt(now);
